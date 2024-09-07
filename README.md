@@ -28,7 +28,8 @@ python ScriptGenerate.py
 ```
 ## Функционал
 
-![Screenshot_10](https://github.com/user-attachments/assets/130fb3e5-ad81-4cc6-8925-a99f5c85e0f8)
+![image](https://github.com/user-attachments/assets/55582aa2-9329-4532-abe6-836338e9fe49)
+
 
 
 ## Пример использования
