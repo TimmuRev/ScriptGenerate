@@ -1,6 +1,7 @@
 import random
 import string
 import os
+import time
 import hashlib
 from datetime import datetime
 from faker import Faker
@@ -127,7 +128,7 @@ def generate_qr(data):
     return img_path
 
 def generate_bitcoin_address():
-    return fake.cryptocurrency_address()
+    return fake.cryptocurrency_code()
 
 def generate_bitcoin_private_key():
     return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(64))
@@ -160,6 +161,9 @@ def generate_passport_details():
 def print_gradient_text(text):
     print(Colorate.Vertical(Colors.blue_to_cyan, text))
 
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 def print_menu():
     title = """
 ░██████╗░█████╗░██████╗░██╗██████╗░████████╗░██████╗░███████╗███╗░░██╗███████╗██████╗░░█████╗░████████╗███████╗
@@ -171,100 +175,113 @@ def print_menu():
 """
     developer = "Developer: Killstraut | Timmu"
     lines = "═" * 72
-
-    print(Colorate.Horizontal(Colors.blue_to_cyan, Center.XCenter(title)))
-    print(Colorate.Horizontal(Colors.blue_to_cyan, Center.XCenter(developer)))
-    print("\n" + Center.XCenter(lines))
-    
     menu = """
 ╔═══════════════════════════════════════════════════════════════════════════════════╗
-║  1. Генерация Пароля             15. Генерация Должности                          ║
-║  2. Генерация Номера             16. Генерация Номера Лицензии                    ║
-║  3. Генерация Личности           17. Генерация SSN                                ║
-║  4. Генерация Ключей Мулвад      18. Генерация QR-кода                            ║
-║  5. Генерация Токенов Дискорд    19. Генерация Координат                          ║
-║  6. Генерация Банковской Карты   20. Генерация Фальшивых Новостей                 ║
-║  7. Генерация Email              21. Генерация Цветовых Палитр                    ║
-║  8. Генерация Даты Рождения      22. Генерация QR-кода                            ║
-║  9. Генерация UUID               23. Генерация Адреса Биткойна                    ║
-║ 10. Генерация MAC-адреса         24. Генерация Приватного Ключа Биткойна          ║
-║ 11. Генерация Адреса             25. Генерация Профиля Акций                      ║
-║ 12. Генерация Имени Пользователя 26. Генерация Медицинского Профиля               ║
-║ 13. Генерация Цитаты             27. Генерация Паспортных Данных                  ║
-║ 14. Генерация Названия Компании  0. Выход                                         ║
+║                             Генерация Личных Данных                               ║
+║───────────────────────────────────────────────────────────────────────────────────║
+║           1. Пароль                   │      8. Дата Рождения                     ║
+║           2. Номер                    │      9. UUID                              ║
+║           3. Личность                 │     10. MAC-адрес                         ║
+║           4. Ключи Мулвад             │     11. Адрес                             ║
+║           5. Токены Дискорд           │     12. Имя Пользователя                  ║
+║           6. Банковская Карта         │     13. Цитата                            ║
+║           7. Email                    │     14. Компания                          ║
+╠───────────────────────────────────────────────────────────────────────────────────╣
+║                             Генерация Разных Данных                               ║
+║───────────────────────────────────────────────────────────────────────────────────╣
+║           15. Должность               │     22. Пользовательский Пароль           ║
+║           16. Номер Лицензии          │     23. Bitcoin-адрес                     ║
+║           17. SSN                     │     24. Bitcoin-ключ                      ║
+║           18. QR-код                  │     25. Акции                             ║
+║           19. Координаты              │     26. Медицинское Портфолио             ║
+║           20. Фальшивые Новости       │     27. Паспортные Данные                 ║
+║           21. Цветовые Палитры        │     Cкоро...                              ║
+╠───────────────────────────────────────────────────────────────────────────────────╣
+║                                   28. Выход                                       ║
 ╚═══════════════════════════════════════════════════════════════════════════════════╝
-"""
 
-    print(Center.XCenter(menu))
-    choice = input("\nВыберите опцию: ")
-    return choice
+    """
+    
+    # Очистка экрана и вывод меню
+    clear_screen()
+    print(Colorate.Horizontal(Colors.blue_to_cyan, Center.XCenter(title)))
+    print(Colorate.Horizontal(Colors.blue_to_cyan, Center.XCenter(developer)))
+    print_gradient_text(Center.XCenter(lines))
+    print()
+    print_gradient_text(Center.XCenter(menu))
 
+# Запуск функции для отображения меню
+print_menu()
+    
 def main():
     while True:
-        choice = print_menu()
-        if choice == "0":
+        print_menu()
+        option = input("Выберите опцию: ")
+
+        if option == '1':
+            print("Сгенерированный пароль:", generate_password())
+        elif option == '2':
+            country_code = input("Введите код страны: ")
+            print("Сгенерированный номер телефона:", generate_number(country_code))
+        elif option == '3':
+            print("Сгенерированная личность:", generate_identity())
+        elif option == '4':
+            print("Сгенерированный ключ Mullvad:", generate_mullvad_key())
+        elif option == '5':
+            print("Сгенерированный токен Discord:", generate_discord_token())
+        elif option == '6':
+            print("Сгенерированный номер банковской карты:", generate_credit_card())
+        elif option == '7':
+            print("Сгенерированный email:", generate_email())
+        elif option == '8':
+            print("Сгенерированная дата рождения:", generate_birthdate())
+        elif option == '9':
+            print("Сгенерированный UUID:", generate_uuid())
+        elif option == '10':
+            print("Сгенерированный MAC-адрес:", generate_mac())
+        elif option == '11':
+            print("Сгенерированный адрес:", generate_address())
+        elif option == '12':
+            print("Сгенерированное имя пользователя:", generate_username())
+        elif option == '13':
+            print("Сгенерированная цитата:", generate_quote())
+        elif option == '14':
+            print("Сгенерированная компания:", generate_company())
+        elif option == '15':
+            print("Сгенерированная должность:", generate_job())
+        elif option == '16':
+            print("Сгенерированный номер лицензии:", generate_license_plate())
+        elif option == '17':
+            print("Сгенерированный SSN:", generate_ssn())
+        elif option == '18':
+            data = input("Введите данные для QR-кода: ")
+            qr_path = generate_qr(data)
+            print(f"QR-код сохранен как {qr_path}")
+        elif option == '19':
+            print("Сгенерированные координаты:", generate_coordinates())
+        elif option == '20':
+            print("Сгенерированные фальшивые новости:", generate_fake_news())
+        elif option == '21':
+            print("Сгенерированная цветовая палитра:", generate_color_palette())
+        elif option == '22':
+            print("Сгенерированный пользовательский пароль:", prompt_password_criteria())
+        elif option == '23':
+            print("Сгенерированный Bitcoin-адрес:", generate_bitcoin_address())
+        elif option == '24':
+            print("Сгенерированный Bitcoin-ключ:", generate_bitcoin_private_key())
+        elif option == '25':
+            print("Сгенерированный профиль акции:", generate_stock_profile())
+        elif option == '26':
+            print("Сгенерированное медицинское портфолио:", generate_medical_profile())
+        elif option == '27':
+            print("Сгенерированные паспортные данные:", generate_passport_details())
+        elif option == '28':
+            print("Выход")
             break
-        elif choice == "1":
-            print(generate_password())
-        elif choice == "2":
-            print(prompt_password_criteria())
-        elif choice == "3":
-            print(generate_number("1"))
-        elif choice == "4":
-            print(generate_identity())
-        elif choice == "5":
-            print(generate_mullvad_key())
-        elif choice == "6":
-            print(generate_discord_token())
-        elif choice == "7":
-            print(generate_credit_card())
-        elif choice == "8":
-            print(generate_email())
-        elif choice == "9":
-            print(generate_birthdate())
-        elif choice == "10":
-            print(generate_uuid())
-        elif choice == "11":
-            print(generate_mac())
-        elif choice == "12":
-            print(generate_address())
-        elif choice == "13":
-            print(generate_username())
-        elif choice == "14":
-            print(generate_quote())
-        elif choice == "15":
-            print(generate_company())
-        elif choice == "16":
-            print(generate_job())
-        elif choice == "17":
-            print(generate_license_plate())
-        elif choice == "18":
-            data = input("Введите данные для QR-кода: ")
-            qr_path = generate_qr(data)
-            print(f"QR-код сохранен по пути {qr_path}")
-        elif choice == "19":
-            print(generate_coordinates())
-        elif choice == "20":
-            print(generate_fake_news())
-        elif choice == "21":
-            print(generate_color_palette())
-        elif choice == "22":
-            data = input("Введите данные для QR-кода: ")
-            qr_path = generate_qr(data)
-            print(f"QR-код сохранен по пути {qr_path}")
-        elif choice == "23":
-            print(generate_bitcoin_address())
-        elif choice == "24":
-            print(generate_bitcoin_private_key())
-        elif choice == "25":
-            print(generate_stock_profile())
-        elif choice == "26":
-            print(generate_medical_profile())
-        elif choice == "27":
-            print(generate_passport_details())
         else:
-            print("Некорректный выбор. Пожалуйста, выберите снова.")
-        input("\nНажмите Enter, чтобы продолжить...")
+            print("Неверная опция. Пожалуйста, выберите снова.")
+        
+        input("Нажмите Enter для продолжения...")
 
 if __name__ == "__main__":
     main()
